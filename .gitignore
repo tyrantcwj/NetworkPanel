@@ -27,3 +27,7 @@ coverage
 *.sln
 *.sw?
 visualizer.html
+
+# iKuai ipkg build output
+release
+.ipkg-stage-*

@@ -1,0 +1,6 @@
+网络面板 NetworkPanel 爱快 iKuai 4 应用
+
+- 打包为爱快应用市场 ipkg，支持 x86_64 / arm64
+- 基于 nginx:stable-alpine 提供静态页面，默认端口 8080
+
+更新日志请参考 https://github.com/tyrantcwj/NetworkPanel/releases

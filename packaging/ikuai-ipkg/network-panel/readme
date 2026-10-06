@@ -1,0 +1,13 @@
+网络面板 NetworkPanel
+
+测试您的网速，多出口查询您的 IP 地址。
+支持定量完成，支持多线程，适配 iOS 后台运行，支持自定义节点。
+
+使用方法:
+安装并启动后，通过 http://<爱快LAN口IP>:<网页访问端口> 访问
+默认端口: 8080（可在应用配置中修改）
+
+注意: 爱快应用管理界面中的“打开”按钮地址可能不正确，请直接按上面的地址访问。
+
+项目地址: https://github.com/tyrantcwj/NetworkPanel
+上游项目: https://github.com/ljxi/NetworkPanel

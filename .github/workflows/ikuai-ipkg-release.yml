@@ -1,0 +1,81 @@
+name: Build iKuai ipkg Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release 标签 (如 v3.2.7)，ipkg 版本号取 X.Y.Z 部分'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-ipkg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Resolve version
+        id: ver
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build web
+        run: pnpm run build
+
+      - uses: docker/setup-qemu-action@v3
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build ipkg (x86_64)
+        run: bash packaging/ikuai-ipkg/build-ipkg.sh amd64 "${{ steps.ver.outputs.version }}"
+
+      - name: Build ipkg (arm64)
+        run: bash packaging/ikuai-ipkg/build-ipkg.sh arm64 "${{ steps.ver.outputs.version }}"
+
+      - name: Checksums
+        run: cd release && sha256sum *.ipkg > SHA256SUMS && cat SHA256SUMS
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ikuai-ipkg
+          path: release/*
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: NetworkPanel ${{ steps.ver.outputs.tag }}
+          body: |
+            ## 爱快 iKuai 4 应用市场安装包
+
+            - `network-panel-ikuai-x86_64.ipkg`：x86_64 爱快
+            - `network-panel-ikuai-arm64.ipkg`：arm64 爱快
+
+            安装：爱快 Web 管理界面 → 应用工具 → 应用管理 → 应用市场 → **本地安装**，上传 ipkg 并启动。
+
+            访问：`http://<爱快LAN口IP>:8080`（端口可在应用配置中修改）
+          files: |
+            release/*.ipkg
+            release/SHA256SUMS

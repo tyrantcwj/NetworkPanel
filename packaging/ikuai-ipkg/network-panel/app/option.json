@@ -1,0 +1,26 @@
+[
+  {
+    "default": 8080,
+    "min": 1,
+    "max": 65535,
+    "attrname": "APP_PORT_WEB",
+    "label": {
+      "en": "WebUI Port",
+      "zh": "网页访问端口"
+    },
+    "required": true,
+    "scope": "config",
+    "type": "integer"
+  },
+  {
+    "default": "Asia/Shanghai",
+    "attrname": "TZ",
+    "label": {
+      "en": "Timezone",
+      "zh": "时区"
+    },
+    "required": true,
+    "scope": "environment",
+    "type": "string"
+  }
+]

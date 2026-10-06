@@ -1,0 +1,17 @@
+{
+    "name": "network-panel",
+    "version": "__IPKG_VERSION__",
+    "display_name": "网络面板",
+    "image": "network-panel:ikuai",
+    "description": "网络面板 NetworkPanel：网页测速（多线程 / 定量 / 后台运行）与多出口 IP 查询",
+    "type": "1",
+    "maintainer": "ljxi",
+    "maintainer_url": "https://github.com/ljxi/NetworkPanel",
+    "distributor": "tyrantcwj",
+    "distributor_url": "https://github.com/tyrantcwj/NetworkPanel",
+    "requirements": {
+        "memory": "32MB",
+        "storage": "50MB",
+        "os_min_version": "4.0.0"
+    }
+}
