@@ -17,7 +17,7 @@ docker run -d --rm -p 8080:80 netart/network-panel:latest
 2. 爱快 Web 管理界面 → 应用工具 → 应用管理 → 应用市场 → **本地安装**，上传 ipkg 并启动
 3. 浏览器访问 `http://<爱快LAN口IP>:8080`（端口可在应用配置中修改）
 
-自行打包：`pnpm run build && bash packaging/ikuai-ipkg/build-ipkg.sh amd64`（或 `arm64`），推送 `v*` 标签会自动构建并发布到 Release。
+自行打包：`pnpm run build && bash packaging/ikuai-ipkg/build-ipkg.sh amd64`（或 `arm64`）。推送到 main 分支（或推送 `v*` 标签）时，GitHub Actions 会按 `package.json` 版本自动构建并发布到 Release。
 
 或者使用腾讯云提供的一键部署
 

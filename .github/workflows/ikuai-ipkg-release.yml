@@ -1,14 +1,15 @@
 name: Build iKuai ipkg Release
 
+# 推送到 main/master（或本分支）时按 package.json 版本发布 v<版本> Release；推送 v* 标签时按标签发布
 on:
   push:
+    branches:
+      - main
+      - master
+      - claude/vibrant-goldberg-ijswds
     tags:
       - 'v*'
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Release 标签 (如 v3.2.7)，ipkg 版本号取 X.Y.Z 部分'
-        required: true
 
 permissions:
   contents: write
@@ -33,7 +34,11 @@ jobs:
       - name: Resolve version
         id: ver
         run: |
-          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            TAG="$GITHUB_REF_NAME"
+          else
+            TAG="v$(node -p "require('./package.json').version")"
+          fi
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
 
